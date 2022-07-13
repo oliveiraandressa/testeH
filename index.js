@@ -27,8 +27,8 @@ router.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
   
 //inicia o servidor
 
-express()
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+// express()
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
   console.log('API funcionando!');
 
 function execSQLQuery(sqlQry, res){
