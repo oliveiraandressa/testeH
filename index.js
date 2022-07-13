@@ -1,11 +1,8 @@
 const express = require('express')
-const PORT = process.env.PORT || 5000
-
-express()
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 const app = express();         
 const bodyParser = require('body-parser');
 const path = require('path')
+const PORT = process.env.PORT || 5000
 const mysql = require('mysql');
 const cors = require('cors');
 
@@ -20,16 +17,24 @@ app.use((req, res, next) => {
   app.use('/', router);
   next();
 });
+
 //definindo as rotas
 const router = express.Router();
 router.get('/', (req, res) => res.json({ message: 'Funcionando!' }));
 
-  
-//inicia o servidor
+//api
+//musicas
+router.get('/musicas/:id?', (req, res) =>{
+  let filter = '';
+  if(req.params.id) filter = ' WHERE ID=' + parseInt(req.params.id);
+  execSQLQuery('SELECT * FROM musicas' + filter, res);
+});
 
+
+
+app.listen(PORT);
 // express()
 //   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-  console.log('API funcionando!');
 
 function execSQLQuery(sqlQry, res){
   const connection = mysql.createConnection({
@@ -52,9 +57,5 @@ function execSQLQuery(sqlQry, res){
 
 
 
-//musicas
-router.get('/musicas/:id?', (req, res) =>{
-    let filter = '';
-    if(req.params.id) filter = ' WHERE ID=' + parseInt(req.params.id);
-    execSQLQuery('SELECT * FROM musicas' + filter, res);
-});
+
+
